@@ -1,0 +1,13 @@
+digraph Tree {
+	"y" [label="y"];
+	"y" -> "z" [label="2"];
+	"z" [label="z"];
+	"z" -> "T" [label="1"];
+	"T" [label="T"];
+	"z" -> "F" [label="2"];
+	"F" [label="F"];
+	"y" -> "F" [label="3"];
+	"F" [label="F"];
+	"y" -> "F" [label="1"];
+	"F" [label="F"];
+}

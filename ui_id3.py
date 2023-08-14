@@ -82,7 +82,7 @@ class Ui_MainWindow(object):
         self.zoom_out_shortcut.activated.connect(self.zoom_out)
 
         # Algorithms ID3
-        self.decision_tree = DecisionTreeID3(max_depth=5, min_samples_split=2)
+        self.decision_tree = DecisionTreeID3(max_depth=5, min_samples_split=1)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -173,7 +173,9 @@ class Ui_MainWindow(object):
                 data[list_label_features[i]] = [list_current_features[i]]
             
             df = pd.DataFrame(data)
+            print(df.iloc[:, :])
             pred_label = self.decision_tree.predict(df.iloc[:, :])[0]
+            print(pred_label)
             self.label_2.setText(pred_label.upper())
 
         except Exception as err:

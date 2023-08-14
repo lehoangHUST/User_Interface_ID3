@@ -10,14 +10,14 @@ def tree_to_xml(node):
     for edge_i, child in enumerate(node.children):
         child_element = tree_to_xml(child)
         if len(node.children):
-            child_element.set("edge_name", node.order[edge_i])
+            child_element.set("edge_name", str(node.order[edge_i]))
         element.append(child_element)
     return element
 
 
 def object_tree_to_xml_string(root):
     root_element = tree_to_xml(root)
-    xml_string = etree.tostring(root_element, pretty_print=True, encoding='unicode')
+    xml_string = etree.tostring(root_element, pretty_print=True, encoding="UTF-8")
     return xml_string
 
 

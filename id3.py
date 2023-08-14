@@ -31,13 +31,14 @@ def entropy(freq):
 
 
 class DecisionTreeID3(object):
-    def __init__(self, max_depth= 10, min_samples_split = 2, min_gain = 1e-4):
+    def __init__(self, max_depth = 2, min_samples_split = 10, min_gain = 1e-4):
         self.root = None
         self.max_depth = max_depth 
         self.min_samples_split = min_samples_split 
         self.Ntrain = 0
         self.min_gain = min_gain
     
+
     def fit(self, data, target):
         self.Ntrain = data.count()[0]
         self.data = data 
@@ -57,13 +58,16 @@ class DecisionTreeID3(object):
                 queue += node.children
             else:
                 self._set_label(node)
-                
+
+
     def _entropy(self, ids):
         # calculate entropy of a node with index ids
         if len(ids) == 0: return 0
         ids = [i+1 for i in ids] # panda series index starts from 1
         freq = np.array(self.target[ids].value_counts())
+        print(entropy(freq))
         return entropy(freq)
+
 
     def _set_label(self, node):
         # find label for a node if it is a leaf
@@ -71,6 +75,7 @@ class DecisionTreeID3(object):
         target_ids = [i + 1 for i in node.ids]  # target is a series variable
         node.set_label(self.target[target_ids].mode()[0]) # most frequent label
     
+
     def _split(self, node):
         ids = node.ids 
         best_gain = 0
@@ -100,8 +105,9 @@ class DecisionTreeID3(object):
                 order = values
         node.set_properties(best_attribute, order)
         child_nodes = [TreeNode(ids = split,
-                     entropy = self._entropy(split), depth = node.depth + 1) for split in best_splits]
+                    entropy = self._entropy(split), depth = node.depth + 1) for split in best_splits]
         return child_nodes
+
 
     def predict(self, new_data):
         """
